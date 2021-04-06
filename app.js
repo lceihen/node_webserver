@@ -1,28 +1,31 @@
-const http = require('http')
-const querystring = require('querystring')
+const querystring=require('querystring')
+const handleBlogRouter = require("./src/router/blog")
+const handleUserRouter = require("./src/router/user")
+const serverHandle=(req,res)=>{
+    res.setHeader('Content-type','application/json')
 
-const server = http.createServer((req, res) => {
-    console.log('method:', req.method)
-    if (req.method === "GET") {
-        const url = req.url
-        console.log('url', url)
-        req.query = querystring.parse(url.split('?')[1])
-        console.log('query:', req.query)
+    const url=req.url
+    req.path=url.split('?')[0]
+    req.query=querystring.parse(url.split('?')[0])
+    console.log("query:",req.query)
+    const blogData=handleBlogRouter(req,res)
+    if(blogData){
         res.end(
-            JSON.stringify(req.query)
+            JSON.stringify(blogData)
         )
-    }
-    else if (req.method === "POST") {
-        console.log('req content-type:', req.headers['content-type'])
-        let postData = ''
-        req.on('data', chunk => {
-            postData += chunk.toString()
-        })
-        req.on('end', () => {
-            console.log('postData', postData)
-            res.end('post success')
-        })
+        return
     }
 
-})
-server.listen(8000)
+    const userData=handleUserRouter(req,res)
+    if(userData){
+        res.end(
+            JSON.stringify(userData)
+        )
+        return
+    }
+
+    res.writeHead(404,{"Content-type":"text/plain"})
+    res.write("404 Not Found\n")
+    res.end()
+}
+module.exports=serverHandle

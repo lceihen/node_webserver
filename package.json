@@ -4,7 +4,8 @@
   "description": "",
   "main": "bin/www.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev":"cross-env NODE_ENV=dev nodemon ./bin/www.js"
   },
   "repository": {
     "type": "git",
@@ -16,5 +17,9 @@
   "bugs": {
     "url": "https://github.com/lceihen/node_webserver/issues"
   },
-  "homepage": "https://github.com/lceihen/node_webserver#readme"
+  "homepage": "https://github.com/lceihen/node_webserver#readme",
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "nodemon": "^2.0.7"
+  }
 }
