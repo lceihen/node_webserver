@@ -1,15 +1,18 @@
 
-
+const { SuccessModel, ErrorModel } = require('../model/resModel')
+const {loginCheck}=require('./../controller/user')
 const handleUserRouter=(req,res)=>{
     const method=req.method
     const url=req.url
     const path=url.split('?')[0]
     console.log(path)
     if(method==='POST' && path ==='/api/user/login'){
-        console.log("ing")
-        return {
-            msg:'这是登陆的接口'
+        const {username,password}=req.body
+        const result=loginCheck(username,password)
+        if(result){
+            return new SuccessModel()
         }
+        return new ErrorModel('登陆失败')
     }
 }
 module.exports=handleUserRouter
