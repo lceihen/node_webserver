@@ -1,5 +1,5 @@
 let MYSQL_CONF
-
+const env = process.env.NODE_ENV
 if (env === 'dev') {
     MYSQL_CONF = {
         host: 'localhost',
