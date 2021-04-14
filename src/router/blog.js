@@ -16,12 +16,21 @@ const handleBlogRouter = (req, res) => {
         })
     }
     if (method === 'GET' && path === '/api/blog/detail') {
+        // const data = getDetail(id)
+        // return new SuccessModel(data)
         const data = getDetail(id)
-        return new SuccessModel(data)
+        return data.then(data => {
+            return new SuccessModel(data)
+        })
     }
     if (method === 'POST' && path === '/api/blog/new') {
+        // const data = newBlog(req.body)
+        // return new SuccessModel(data)
+        req.body.author = 'zhangsan'
         const data = newBlog(req.body)
-        return new SuccessModel(data)
+        return data.then(res => {
+            return new SuccessModel(res)
+        })
     }
     if (method === 'POST' && path === '/api/blog/update') {
         const result = updateBlog(id, req.body)
