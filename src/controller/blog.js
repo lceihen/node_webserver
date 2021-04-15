@@ -8,7 +8,6 @@ const getList = (author, keyword) => {
     if (keyword) {
         sql == `order by createtime desc;`
     }
-    ///console.log(sql)
     return exec(sql)
 }
 const getDetail = (id) => {
@@ -23,19 +22,32 @@ const newBlog = (blogData = {}) => {
     const author = blogData.author
     const createTime = Date.now()
     const sql = `insert into blogs (title,content,createtime,author) values ('${title}','${content}','${createTime}','${author}')`
-    console.log(sql)
     return exec(sql).then(insertData => {
-        console.log('insertData', insertData)
         return {
             id: insertData.insertId
         }
     })
 }
 const updateBlog = (id, blogData = {}) => {
-    return true
+    const title = blogData.title
+    const content = blogData.content
+
+    const sql = `update blogs set title='${title}',content='${content}' where id='${id}'`
+    return exec(sql).then(updateData => {
+        if (updateData.affectedRows) {
+            return true
+        }
+        return false
+    })
 }
-const delBlog = (id) => {
-    return true
+const delBlog = (id, author) => {
+    const sql = `delete from blogs where id='${id}' and author='${author}';`
+    return exec(sql).then(delData => {
+        if (delData.affectedRows > 0) {
+            return true
+        }
+        return false
+    })
 }
 module.exports = {
     getList,
