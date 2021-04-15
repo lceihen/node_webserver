@@ -1,4 +1,5 @@
 const { resolve } = require('path')
+
 const querystring = require('querystring')
 const handleBlogRouter = require("./src/router/blog")
 const handleUserRouter = require("./src/router/user")
@@ -43,11 +44,10 @@ const serverHandle = (req, res) => {
             return
         }
         const arr = item.split('=')
-        const key = arr[0]
-        const val = arr[1]
+        const key = arr[0].trim()
+        const val = arr[1].trim()
         req.cookie[key] = val
     })
-    console.log('cookie', req.cookie)
     getPostData(req).then(postData => {
         req.body = postData
 
