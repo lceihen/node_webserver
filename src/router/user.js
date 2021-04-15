@@ -18,15 +18,16 @@ const handleUserRouter = (req, res) => {
         const result = login(username, password)
         return result.then(data => {
             if (data.username) {
-                res.setHeader('Set-Cookie', `username=${data.username};path=/;httpOnly;expires=${getCookieExpires()}`)
+                req.session.username = data.username
+                req.session.realName = data.realname
                 return new SuccessModel()
             }
             return new ErrorModel('登录失败')
         })
     }
     if (method === 'GET' && req.path === '/api/user/login-test') {
-        if (req.cookie.username) {
-            return Promise.resolve(new SuccessModel(req.cookie.username))
+        if (req.session.username) {
+            return Promise.resolve(new SuccessModel({ session: req.session }))
         }
         return Promise.resolve(new ErrorModel('尚未登录'))
     }
