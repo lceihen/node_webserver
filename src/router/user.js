@@ -1,6 +1,7 @@
 
 const { SuccessModel, ErrorModel } = require('../model/resModel')
 const { login } = require('./../controller/user')
+const { set } = require('./../db/redis')
 const getCookieExpires = () => {
     const d = new Date()
     d.setTime(d.getTime() + (24 * 60 * 60 * 1000))
@@ -20,6 +21,7 @@ const handleUserRouter = (req, res) => {
             if (data.username) {
                 req.session.username = data.username
                 req.session.realName = data.realname
+                set(req.sessionId, req.session)
                 return new SuccessModel()
             }
             return new ErrorModel('登录失败')

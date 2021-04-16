@@ -20,7 +20,8 @@
   "homepage": "https://github.com/lceihen/node_webserver#readme",
   "devDependencies": {
     "cross-env": "^7.0.3",
-    "nodemon": "^2.0.7"
+    "nodemon": "^2.0.7",
+    "redis": "^3.1.1"
   },
   "dependencies": {
     "mysql": "^2.18.1"
