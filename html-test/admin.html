@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,22 +11,27 @@
             margin: 0 20px;
             line-height: 1;
         }
+
         a {
             text-decoration-line: none;
             cursor: pointer;
         }
+
         table {
             border: 1px solid #ccc;
         }
+
         table th {
             text-align: left;
             background-color: #f1f1f1;
-        } 
+        }
+
         table td:nth-child(1) {
             width: 300px;
         }
     </style>
 </head>
+
 <body>
     <h1 style="border-bottom: 1px solid #ccc; padding-bottom: 10px;">管理中心</h1>
     <p>
@@ -63,24 +69,24 @@
         function getUrlParams() {
             let paramStr = location.href.split('?')[1] || ''
             paramStr = paramStr.split('#')[0]
-            const result = {}
+            let result = {}
             paramStr.split('&').forEach(itemStr => {
-                const arr = itemStr.split('=')
-                const key = arr[0]
-                const val = arr[1]
+                let arr = itemStr.split('=')
+                let key = arr[0]
+                let val = arr[1]
                 result[key] = val
             })
             return result
         }
 
         // 获取 dom 元素
-        const $textKeyword = $('#text-keyword')
-        const $btnSearch = $('#btn-search')
-        const $tableContainer = $('#table-container')
+        let $textKeyword = $('#text-keyword')
+        let $btnSearch = $('#btn-search')
+        let $tableContainer = $('#table-container')
 
         // 拼接接口 url
         let url = '/api/blog/list?isadmin=1'  // 增加一个 isadmin=1 参数，使用登录者的用户名，后端也需要修改 ！！！
-        const urlParams = getUrlParams()
+        let urlParams = getUrlParams()
         if (urlParams.keyword) {
             url += '&keyword=' + urlParams.keyword
         }
@@ -93,7 +99,7 @@
             }
 
             // 显示数据
-            const data = res.data || []
+            let data = res.data || []
             data.forEach(item => {
                 $tableContainer.append($(`
                     <tr>
@@ -113,19 +119,19 @@
 
         // 搜索
         $btnSearch.click(() => {
-            const keyword = $textKeyword.val()
+            let keyword = $textKeyword.val()
             location.href = '/admin.html?keyword=' + keyword
         })
 
         // 删除
         $tableContainer.click(e => {
-            const $target = $(e.target)
+            let $target = $(e.target)
             if ($target.hasClass('item-del') === false) {
                 return
             }
 
             if (confirm('确定删除？')) {
-                const url = '/api/blog/del?id=' + $target.attr('data-id')
+                let url = '/api/blog/del?id=' + $target.attr('data-id')
                 post(url).then(res => {
                     if (res.errno !== 0) {
                         alert('操作错误')
@@ -138,4 +144,5 @@
 
     </script>
 </body>
+
 </html>
